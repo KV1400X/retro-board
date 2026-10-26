@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Retro Board" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="theme-color" content="#121214" />
+  <meta name="description" content="Installable soundboard. Record or import sounds onto pads. Audio stays on your phone — never uploaded." />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png" />
+  <title>Retro Board</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div id="app">
+    <header class="topbar">
+      <div class="brand">
+        <span class="brand-mark" aria-hidden="true">
+          <span></span><span></span><span></span><span></span>
+        </span>
+        <span>Retro Board</span>
+      </div>
+      <div class="top-actions">
+        <div class="mode-toggle" role="group" aria-label="Mode">
+          <button type="button" id="btnPlayMode" class="active" aria-pressed="true">Play</button>
+          <button type="button" id="btnEditMode" aria-pressed="false">Edit</button>
+        </div>
+        <button type="button" class="icon-btn" id="btnHelp" title="Help" aria-label="Help">?</button>
+      </div>
+    </header>
+
+    <div class="toolbar">
+      <div class="vol-wrap">
+        <label for="vol">Vol</label>
+        <input type="range" id="vol" min="0" max="100" value="85" aria-label="Volume" />
+      </div>
+      <button type="button" class="btn-chip danger" id="btnStopAll" aria-label="Stop all sounds">Stop</button>
+    </div>
+
+    <p class="edit-hint hidden" id="editHint">
+      <strong>Edit mode</strong> — tap a pad to rename, recolor, record, or import audio.
+    </p>
+
+    <main class="board" id="board" aria-label="Sound pads"></main>
+  </div>
+
+  <!-- Edit pad panel -->
+  <div class="panel" id="panelEdit" role="dialog" aria-modal="true" aria-labelledby="editTitle">
+    <div class="panel-sheet">
+      <div class="panel-header">
+        <h2 id="editTitle">Edit pad</h2>
+        <button type="button" class="icon-btn" id="btnCloseEdit" aria-label="Close">×</button>
+      </div>
+      <div class="panel-body">
+        <div class="field">
+          <label for="padLabel">Label</label>
+          <input type="text" id="padLabel" maxlength="32" autocomplete="off" enterkeyhint="done" />
+        </div>
+
+        <div class="field">
+          <label>Color</label>
+          <div class="swatches" id="swatches"></div>
+        </div>
+
+        <div class="field">
+          <label>Sound</label>
+          <p class="meta" id="soundMeta">No custom sound — using starter tone.</p>
+          <div class="action-row" style="margin-top:8px">
+            <button type="button" class="btn-full ok" id="btnRecord">● Record</button>
+            <button type="button" class="btn-full" id="btnImport">Import file</button>
+          </div>
+          <p class="rec-status" id="recStatus"></p>
+          <input type="file" id="fileInput" class="file-input" accept="audio/*,.m4a,.mp3,.wav,.ogg,.aac,.caf" />
+        </div>
+
+        <div class="action-row">
+          <button type="button" class="btn-full" id="btnPreview">▶ Preview</button>
+          <button type="button" class="btn-full danger" id="btnClearSound">Clear sound</button>
+        </div>
+
+        <button type="button" class="btn-full primary" id="btnSavePad">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Help panel -->
+  <div class="panel" id="panelHelp" role="dialog" aria-modal="true" aria-labelledby="helpTitle">
+    <div class="panel-sheet">
+      <div class="panel-header">
+        <h2 id="helpTitle">How to use</h2>
+        <button type="button" class="icon-btn" id="btnCloseHelp" aria-label="Close">×</button>
+      </div>
+      <div class="panel-body">
+        <p class="meta">
+          <strong style="color:var(--text)">Play mode</strong> — jam. Tap pads to fire sounds. Multi-touch works; several pads can play at once.
+        </p>
+        <p class="meta">
+          <strong style="color:var(--text)">Edit mode</strong> — tap a pad to rename, recolor, record from the mic, or import an audio file (m4a / mp3 / wav / ogg).
+        </p>
+        <p class="meta">
+          Sounds are stored in <strong style="color:var(--text)">IndexedDB on this device only</strong> — never uploaded to GitHub or any server.
+        </p>
+        <p class="meta">
+          <strong style="color:var(--text)">Add to Home Screen (iPhone):</strong> Safari → Share → Add to Home Screen.
+        </p>
+        <p class="meta">
+          Mic access needs HTTPS (this site) and your permission the first time you record.
+        </p>
+        <button type="button" class="btn-full primary" id="btnCloseHelp2">Got it</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status"></div>
+
+  <script src="js/db.js"></script>
+  <script src="js/audio.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
