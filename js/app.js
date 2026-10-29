@@ -12,7 +12,10 @@
 
   const DEFAULT_PADS = () =>
     Array.from({ length: PAD_COUNT }, (_, i) => {
-      const starter = RBAudio.STARTERS[i % RBAudio.STARTERS.length];
+      const tones = RBAudio.STARTERS.filter((s) => !s.file);
+      const starter = i === PAD_COUNT - 1
+        ? RBAudio.STARTERS.find((s) => s.id === 'airhorn')
+        : tones[i % tones.length];
       return {
         id: `pad-${i}`,
         label: starter.label,
@@ -60,6 +63,14 @@
       const vol = await RB_DB.getMeta('volume', 0.85);
       if (pads && Array.isArray(pads) && pads.length === PAD_COUNT) {
         state.pads = pads;
+      }
+      // migration: make sure an RJ Air Horn pad exists
+      if (!state.pads.some((p) => p.starterId === 'airhorn')) {
+        const free = [...state.pads].reverse().find((p) => !p.hasCustom) || state.pads[PAD_COUNT - 1];
+        free.starterId = 'airhorn';
+        free.label = 'RJ Air Horn';
+        free.hasCustom = false;
+        await savePads();
       }
       state.volume = typeof vol === 'number' ? vol : 0.85;
       RBAudio.setVolume(state.volume);
@@ -160,7 +171,7 @@
   }
 
   async function playPad(pad) {
-    RBAudio.ensure();
+    RBAudio.unlock();
     if (pad.hasCustom) {
       let buf = state.bufferCache.get(pad.id);
       if (!buf) {
@@ -458,13 +469,17 @@
 
     // unlock audio on first gesture
     const unlock = () => {
-      RBAudio.ensure();
-      document.removeEventListener('pointerdown', unlock);
+      RBAudio.unlock();
+      ['pointerdown', 'touchend', 'click'].forEach((t) => document.removeEventListener(t, unlock, true));
     };
-    document.addEventListener('pointerdown', unlock);
+    ['pointerdown', 'touchend', 'click'].forEach((t) => document.addEventListener(t, unlock, true));
 
     if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('./sw.js').catch((e) => console.warn('sw', e));
+      navigator.serviceWorker.register('./sw.js').then((r) => r.update()).catch((e) => console.warn('sw', e));
+      let reloaded = false;
+      navigator.serviceWorker.addEventListener('controllerchange', () => {
+        if (reloaded) return; reloaded = true; location.reload();
+      });
     }
   }
 

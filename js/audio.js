@@ -9,8 +9,42 @@ const RBAudio = (() => {
     { id: 'click', label: 'Click', freq: 1800, dur: 0.045, type: 'square', gain: 0.35 },
     { id: 'beep', label: 'Beep', freq: 880, dur: 0.12, type: 'sine', gain: 0.4 },
     { id: 'blip', label: 'Blip', freq: 520, dur: 0.08, type: 'triangle', gain: 0.45 },
-    { id: 'thud', label: 'Thud', freq: 90, dur: 0.18, type: 'sine', gain: 0.55 }
+    { id: 'thud', label: 'Thud', freq: 90, dur: 0.18, type: 'sine', gain: 0.55 },
+    { id: 'airhorn', label: 'RJ Air Horn', file: 'sounds/airhorn.mp3' }
   ];
+
+  // iOS 17+: route Web Audio as media playback so it is not muted by the ringer/silent switch
+  try { if (navigator.audioSession) navigator.audioSession.type = 'playback'; } catch (_) {}
+
+  // File-based starters play through HTMLAudio (plays even with the silent switch on)
+  const fileEls = new Map();
+  function fileEl(src) {
+    let a = fileEls.get(src);
+    if (!a) { a = new Audio(src); a.preload = 'auto'; a.setAttribute('playsinline', ''); fileEls.set(src, a); }
+    return a;
+  }
+  let unlocked = false;
+  const SILENT = 'data:audio/mp4;base64,AAAAHGZ0eXBNNEEgAAACAE00QSBpc29taXNvMgAAAAhmcmVlAAAAAG1kYXQ=';
+  /** Call synchronously inside a tap handler */
+  function unlock() {
+    const c = ensure();
+    if (unlocked) return;
+    unlocked = true;
+    try { const a = new Audio(SILENT); a.setAttribute('playsinline', ''); a.play().catch(() => {}); } catch (_) {}
+    try { const b = c.createBuffer(1, 1, 22050); const s = c.createBufferSource(); s.buffer = b; s.connect(c.destination); s.start(0); } catch (_) {}
+    STARTERS.filter((d) => d.file).forEach((d) => fileEl(d.file).load());
+  }
+  function playFile(src) {
+    const proto = fileEl(src);
+    const a = proto.paused ? proto : proto.cloneNode();
+    a.volume = volume;
+    try { a.currentTime = 0; } catch (_) {}
+    a.play().catch((e) => console.warn('play', e));
+    const voice = { stop() { try { a.pause(); a.currentTime = 0; } catch (_) {} active.delete(voice); } };
+    active.add(voice);
+    a.onended = () => active.delete(voice);
+    return voice;
+  }
 
   function ensure() {
     if (!ctx) {
@@ -20,7 +54,7 @@ const RBAudio = (() => {
       master.gain.value = volume;
       master.connect(ctx.destination);
     }
-    if (ctx.state === 'suspended') ctx.resume();
+    if (ctx.state === 'suspended' || ctx.state === 'interrupted') ctx.resume().catch(() => {});
     return ctx;
   }
 
@@ -31,6 +65,7 @@ const RBAudio = (() => {
 
   function playStarter(starterId) {
     const def = STARTERS.find((s) => s.id === starterId) || STARTERS[0];
+    if (def.file) return playFile(def.file);
     const c = ensure();
     const t0 = c.currentTime;
     const osc = c.createOscillator();
@@ -134,6 +169,7 @@ const RBAudio = (() => {
   return {
     STARTERS,
     ensure,
+    unlock,
     setVolume,
     playStarter,
     decodeBlob,
