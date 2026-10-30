@@ -64,14 +64,20 @@
       if (pads && Array.isArray(pads) && pads.length === PAD_COUNT) {
         state.pads = pads;
       }
-      // migration: make sure an RJ Air Horn pad exists
+      // migration: make sure a DJ air horn pad exists
       if (!state.pads.some((p) => p.starterId === 'airhorn')) {
         const free = [...state.pads].reverse().find((p) => !p.hasCustom) || state.pads[PAD_COUNT - 1];
         free.starterId = 'airhorn';
-        free.label = 'RJ Air Horn';
+        free.label = 'DJ air horn';
         free.hasCustom = false;
         await savePads();
       }
+      // migration: rename old RJ pad to DJ air horn (same slot)
+      let renamed = false;
+      for (const p of state.pads) {
+        if (p.starterId === 'airhorn' && /^RJ/i.test(p.label || '')) { p.label = 'DJ air horn'; renamed = true; }
+      }
+      if (renamed) await savePads();
       state.volume = typeof vol === 'number' ? vol : 0.85;
       RBAudio.setVolume(state.volume);
       $('#vol').value = Math.round(state.volume * 100);

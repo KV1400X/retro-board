@@ -10,7 +10,7 @@ const RBAudio = (() => {
     { id: 'beep', label: 'Beep', freq: 880, dur: 0.12, type: 'sine', gain: 0.4 },
     { id: 'blip', label: 'Blip', freq: 520, dur: 0.08, type: 'triangle', gain: 0.45 },
     { id: 'thud', label: 'Thud', freq: 90, dur: 0.18, type: 'sine', gain: 0.55 },
-    { id: 'airhorn', label: 'RJ Air Horn', file: 'sounds/airhorn.mp3' }
+    { id: 'airhorn', label: 'DJ air horn', file: 'sounds/dj-airhorn.mp3' }
   ];
 
   // iOS 17+: route Web Audio as media playback so it is not muted by the ringer/silent switch
