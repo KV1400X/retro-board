@@ -66,7 +66,8 @@ const RBAudio = (() => {
   }
 
   function playStarter(starterId) {
-    const def = STARTERS.find((s) => s.id === starterId) || STARTERS[0];
+    const def = STARTERS.find((s) => s.id === starterId);
+    if (!def) { console.warn('unknown starter', starterId); return null; }
     if (def.file) return playFile(def.file);
     const c = ensure();
     const t0 = c.currentTime;
@@ -170,6 +171,7 @@ const RBAudio = (() => {
 
   return {
     STARTERS,
+    playFile,
     ensure,
     unlock,
     setVolume,

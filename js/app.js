@@ -22,6 +22,7 @@
         label: starter.label,
         color: COLORS[i % COLORS.length],
         starterId: starter.id,
+        file: starter.file || null,
         hasCustom: false
       };
     });
@@ -74,7 +75,7 @@
           const slot = state.pads.slice(pads.length).find((p) => !p.hasCustom && !RBAudio.STARTERS.find((s) => s.id === p.starterId && s.file));
           if (!slot) continue;
           const def = RBAudio.STARTERS.find((s) => s.id === id);
-          slot.starterId = id; slot.label = def.label; slot.hasCustom = false;
+          slot.starterId = id; slot.label = def.label; slot.file = def.file; slot.hasCustom = false;
         }
         if (grew) await savePads();
       }
@@ -210,7 +211,8 @@
         return;
       }
     }
-    if (pad.starterId) RBAudio.playStarter(pad.starterId);
+    if (pad.file && !RBAudio.STARTERS.some((s) => s.id === pad.starterId)) RBAudio.playFile(pad.file);
+    else if (pad.starterId) RBAudio.playStarter(pad.starterId);
   }
 
   function setMode(mode) {
@@ -322,6 +324,7 @@
     // restore a starter so pad still makes a sound
     const starter = RBAudio.STARTERS[state.pads.indexOf(pad) % RBAudio.STARTERS.length];
     pad.starterId = starter.id;
+    pad.file = starter.file || null;
     if (!pad.label || pad.label === 'Pad') pad.label = starter.label;
     updateSoundMeta(pad);
     await savePads();

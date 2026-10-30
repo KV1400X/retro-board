@@ -1,12 +1,12 @@
 /* Retro Board — shell offline cache. Mic/record needs HTTPS + live page. */
-const CACHE = 'retro-board-v4';
+const CACHE = 'retro-board-v5';
 const SHELL = [
   './',
   './index.html',
-  './styles.css',
-  './js/app.js',
-  './js/db.js',
-  './js/audio.js',
+  './styles.css?v=5',
+  './js/app.js?v=5',
+  './js/db.js?v=5',
+  './js/audio.js?v=5',
   './manifest.json',
   './icons/icon-192.png',
   './icons/icon-512.png',
@@ -18,7 +18,7 @@ const SHELL = [
 
 self.addEventListener('install', (e) => {
   e.waitUntil(
-    caches.open(CACHE).then((c) => c.addAll(SHELL)).then(() => self.skipWaiting())
+    caches.open(CACHE).then((c) => c.addAll(SHELL.map((u) => new Request(u, { cache: 'reload' })))).then(() => self.skipWaiting())
   );
 });
 
@@ -36,7 +36,8 @@ self.addEventListener('fetch', (e) => {
   if (req.headers.has('range')) return; // let media range requests hit the network
   // network-first so updates ship immediately; cache is the offline fallback
   e.respondWith(
-    fetch(req).then((res) => {
+    // bypass the browser HTTP cache so a deploy never mixes old and new files
+    (req.mode === 'navigate' ? fetch(req.url, { cache: 'no-cache', credentials: 'same-origin' }) : fetch(req, { cache: 'no-cache' })).then((res) => {
       if (res.ok && res.status === 200) {
         const copy = res.clone();
         caches.open(CACHE).then((c) => c.put(req, copy));
