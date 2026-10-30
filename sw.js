@@ -1,5 +1,5 @@
 /* Retro Board — shell offline cache. Mic/record needs HTTPS + live page. */
-const CACHE = 'retro-board-v3';
+const CACHE = 'retro-board-v4';
 const SHELL = [
   './',
   './index.html',
@@ -11,7 +11,9 @@ const SHELL = [
   './icons/icon-192.png',
   './icons/icon-512.png',
   './icons/apple-touch-icon.png',
-  './sounds/dj-airhorn.mp3'
+  './sounds/dj-airhorn.mp3',
+  './sounds/get-to-the-choppa.mp3',
+  './sounds/rick-roll.mp3'
 ];
 
 self.addEventListener('install', (e) => {
