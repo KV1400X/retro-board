@@ -60,26 +60,66 @@
       const pads = await RB_DB.getMeta('pads', null);
       const vol = await RB_DB.getMeta('volume', 0.85);
       if (pads && Array.isArray(pads) && pads.length > 0 && pads.length <= PAD_COUNT) {
-        // migration v6: keep custom (REC/imported) pads untouched; swap old synth beep/boop
-        // starters for meme sounds; append new slots for the bigger board.
+        // migration: keep customs; keep current file starters; grow board; swap obsolete
+        // synth/removed starters (beep/bonk/bong/gong) for any missing built-ins (e.g. rickroll).
         const defs = DEFAULT_PADS();
+        const grew = pads.length < PAD_COUNT;
         state.pads = pads.concat(defs.slice(pads.length));
-        const isFileStarter = (p) => RBAudio.STARTERS.some((s) => s.id === p.starterId);
-        const keep = (p, i) => i < pads.length && !p.hasCustom && isFileStarter(p);
-        const used = new Set(state.pads.filter(keep).map((p) => p.starterId));
-        const queue = RBAudio.STARTERS.filter((s) => !used.has(s.id));
-        let changed = pads.length < PAD_COUNT;
-        state.pads.forEach((p, i) => {
-          if (p.hasCustom) return;
-          if (keep(p, i)) {
-            if (p.starterId === 'airhorn' && /^RJ/i.test(p.label || '')) { p.label = 'DJ air horn'; changed = true; }
-            return;
+        const isFileStarter = (id) => RBAudio.STARTERS.some((s) => s.id === id);
+        const remap = { bonk: 'surprise', bong: 'windowswall', gong: 'ninja' };
+        let changed = grew;
+        for (const p of state.pads) {
+          if (p.hasCustom) continue;
+          if (remap[p.starterId]) {
+            const def = RBAudio.STARTERS.find((s) => s.id === remap[p.starterId]);
+            p.starterId = def.id; p.label = def.label; p.file = def.file;
+            changed = true;
           }
-          const def = queue.shift();
-          if (!def) return;
+        }
+        const represented = new Set(
+          state.pads.filter((p) => !p.hasCustom && isFileStarter(p.starterId)).map((p) => p.starterId)
+        );
+        const missing = RBAudio.STARTERS.filter((s) => !represented.has(s.id));
+        const obsolete = (p) => !p.hasCustom && !isFileStarter(p.starterId);
+        for (const p of state.pads) {
+          if (!missing.length) break;
+          if (!obsolete(p)) continue;
+          const def = missing.shift();
           p.starterId = def.id; p.label = def.label; p.file = def.file;
           changed = true;
-        });
+        }
+        // Prefer unique coverage: if still missing, steal duplicate non-custom slots from the end
+        if (missing.length) {
+          const counts = {};
+          for (const p of state.pads) {
+            if (!p.hasCustom && p.starterId) counts[p.starterId] = (counts[p.starterId] || 0) + 1;
+          }
+          for (let i = state.pads.length - 1; i >= 0 && missing.length; i--) {
+            const p = state.pads[i];
+            if (p.hasCustom || (counts[p.starterId] || 0) <= 1) continue;
+            const def = missing.shift();
+            counts[p.starterId]--;
+            p.starterId = def.id; p.label = def.label; p.file = def.file;
+            counts[def.id] = (counts[def.id] || 0) + 1;
+            changed = true;
+          }
+        }
+        // refresh labels/files for still-current starters (e.g. renamed DJ air horn)
+        for (const p of state.pads) {
+          if (p.hasCustom) continue;
+          const def = RBAudio.STARTERS.find((s) => s.id === p.starterId);
+          if (!def) continue;
+          if (p.file !== def.file || p.label !== def.label) {
+            if (p.starterId === 'airhorn' && /^RJ/i.test(p.label || '')) changed = true;
+            // always sync file path; only overwrite label when it still matched the old starter label or is empty
+            p.file = def.file;
+            if (!p.label || p.label === 'Pad' || p.label === def.label || /^RJ/i.test(p.label || '') ||
+                ['Bonk','Bong','Gong','Bong','Click','Beep','Blip','Thud'].includes(p.label)) {
+              p.label = def.label;
+              changed = true;
+            }
+          }
+        }
         if (changed) await savePads();
       }
       state.volume = typeof vol === 'number' ? vol : 0.85;

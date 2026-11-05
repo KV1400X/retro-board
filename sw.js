@@ -1,20 +1,18 @@
 /* Retro Board — shell offline cache. Mic/record needs HTTPS + live page. */
-const CACHE = 'retro-board-v7';
+const CACHE = 'retro-board-v8';
 const SHELL = [
   './',
   './index.html',
-  './styles.css?v=7',
-  './js/app.js?v=7',
-  './js/db.js?v=7',
-  './js/audio.js?v=7',
+  './styles.css?v=8',
+  './js/app.js?v=8',
+  './js/db.js?v=8',
+  './js/audio.js?v=8',
   './manifest.json',
   './icons/icon-192.png',
   './icons/icon-512.png',
   './icons/apple-touch-icon.png',
   './sounds/applause.mp3',
   './sounds/boing.mp3',
-  './sounds/bong.mp3',
-  './sounds/bonk.mp3',
   './sounds/cha-ching.mp3',
   './sounds/crickets.mp3',
   './sounds/dj-airhorn.mp3',
@@ -23,7 +21,6 @@ const SHELL = [
   './sounds/error-ding.mp3',
   './sounds/explosion.mp3',
   './sounds/get-to-the-choppa.mp3',
-  './sounds/gong.mp3',
   './sounds/laugh-track.mp3',
   './sounds/metal-pipe.mp3',
   './sounds/pew-pew.mp3',
@@ -31,9 +28,12 @@ const SHELL = [
   './sounds/rick-roll.mp3',
   './sounds/rimshot.mp3',
   './sounds/sad-trombone.mp3',
+  './sounds/surprise.mp3',
   './sounds/suspense-riser.mp3',
+  './sounds/to-the-windows.mp3',
   './sounds/train-horn.mp3',
   './sounds/vine-boom.mp3',
+  './sounds/wanna-be-ninja.mp3',
   './sounds/whip.mp3'
 ];
 

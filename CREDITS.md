@@ -9,7 +9,6 @@ Built-in pads in `sounds/`. All files trimmed, loudness-normalized and re-encode
 | sounds/applause.mp3 | [Clapping hurray.ogg](https://commons.wikimedia.org/wiki/File:Clapping_hurray.ogg) | starlite | Public domain |
 | sounds/crickets.mp3 | [Crickets choir.ogg](https://commons.wikimedia.org/wiki/File:Crickets_choir.ogg) | Serg Childed | CC BY-SA 4.0 |
 | sounds/laugh-track.mp3 | [72844 lonemonk approx-800-laughter-and-clapter-1.wav](https://commons.wikimedia.org/wiki/File:72844_lonemonk_approx-800-laughter-and-clapter-1.wav) | lonemonk on freesound.org | CC BY 3.0 |
-| sounds/gong.mp3 | [Gong or bell vibrant (short).ogg](https://commons.wikimedia.org/wiki/File:Gong_or_bell_vibrant_(short).ogg) | PDSounds.org | CC0 |
 | sounds/drum-roll.mp3 | [Drum Roll Intro.ogg](https://commons.wikimedia.org/wiki/File:Drum_Roll_Intro.ogg) | Iwan Sounds and DIY | CC0 |
 | sounds/boing.mp3 | [Boing raw.ogg](https://commons.wikimedia.org/wiki/File:Boing_raw.ogg) | cfork | CC BY 4.0 |
 | sounds/cha-ching.mp3 | [Cha Ching Register-Muska666-173262285.wav](https://commons.wikimedia.org/wiki/File:Cha_Ching_Register-Muska666-173262285.wav) | Laxerboyd (Wikimedia Commons) | CC BY-SA 4.0 |
@@ -23,3 +22,13 @@ Synthesized from scratch in code (no samples): vine-boom, rimshot (ba-dum-tss), 
 
 ## Pre-existing pads
 dj-airhorn, get-to-the-choppa, rick-roll were already in the repo before this update.
+
+## Replaced / re-sourced meme clips (user request)
+Short clips Nick asked for on this personal soundboard. Not free-licensed; do not redistribute beyond this board.
+| File | Source |
+|---|---|
+| sounds/rick-roll.mp3 | Rick Astley – Never Gonna Give You Up (Official Video) https://www.youtube.com/watch?v=dQw4w9WgXcQ |
+| sounds/surprise.mp3 | Surprise Motherfucker sound clip https://www.youtube.com/watch?v=YtsZR91rvRw |
+| sounds/to-the-windows.mp3 | To the window to the wall (Get Low) https://www.youtube.com/watch?v=hOttJOGe2Jo |
+| sounds/wanna-be-ninja.mp3 | I wanna be a ninja meme song https://www.youtube.com/watch?v=9h0Q58aa8dY |
+| sounds/get-to-the-choppa.mp3 | Predator scene https://www.youtube.com/watch?v=Aqj-7cCAQZI |
