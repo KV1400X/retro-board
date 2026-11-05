@@ -1,4 +1,4 @@
-/* Web Audio engine: starter tones + multi-voice playback */
+/* Web Audio engine: meme sound starters + multi-voice playback */
 const RBAudio = (() => {
   let ctx = null;
   let master = null;
@@ -6,11 +6,28 @@ const RBAudio = (() => {
   const active = new Set(); // { stop() }
 
   const STARTERS = [
-    { id: 'click', label: 'Click', freq: 1800, dur: 0.045, type: 'square', gain: 0.35 },
-    { id: 'beep', label: 'Beep', freq: 880, dur: 0.12, type: 'sine', gain: 0.4 },
-    { id: 'blip', label: 'Blip', freq: 520, dur: 0.08, type: 'triangle', gain: 0.45 },
-    { id: 'thud', label: 'Thud', freq: 90, dur: 0.18, type: 'sine', gain: 0.55 },
+    { id: 'vineboom', label: 'Vine boom', file: 'sounds/vine-boom.mp3' },
     { id: 'airhorn', label: 'DJ air horn', file: 'sounds/dj-airhorn.mp3' },
+    { id: 'sadtrombone', label: 'Sad trombone', file: 'sounds/sad-trombone.mp3' },
+    { id: 'rimshot', label: 'Ba-dum-tss', file: 'sounds/rimshot.mp3' },
+    { id: 'crickets', label: 'Crickets', file: 'sounds/crickets.mp3' },
+    { id: 'laugh', label: 'Laugh track', file: 'sounds/laugh-track.mp3' },
+    { id: 'applause', label: 'Applause', file: 'sounds/applause.mp3' },
+    { id: 'scratch', label: 'Record scratch', file: 'sounds/record-scratch.mp3' },
+    { id: 'dun', label: 'Dun dun DUNNN', file: 'sounds/dun-dun-dunnn.mp3' },
+    { id: 'bong', label: 'Bong', file: 'sounds/bong.mp3' },
+    { id: 'pipe', label: 'Metal pipe', file: 'sounds/metal-pipe.mp3' },
+    { id: 'bonk', label: 'Bonk', file: 'sounds/bonk.mp3' },
+    { id: 'error', label: 'Error ding', file: 'sounds/error-ding.mp3' },
+    { id: 'explosion', label: 'Explosion', file: 'sounds/explosion.mp3' },
+    { id: 'drumroll', label: 'Drum roll', file: 'sounds/drum-roll.mp3' },
+    { id: 'chaching', label: 'Cha-ching', file: 'sounds/cha-ching.mp3' },
+    { id: 'boing', label: 'Boing', file: 'sounds/boing.mp3' },
+    { id: 'whip', label: 'Whip crack', file: 'sounds/whip.mp3' },
+    { id: 'trainhorn', label: 'Train horn', file: 'sounds/train-horn.mp3' },
+    { id: 'gong', label: 'Gong', file: 'sounds/gong.mp3' },
+    { id: 'riser', label: 'Suspense', file: 'sounds/suspense-riser.mp3' },
+    { id: 'pew', label: 'Pew pew', file: 'sounds/pew-pew.mp3' },
     { id: 'choppa', label: 'Get to the choppa', file: 'sounds/get-to-the-choppa.mp3' },
     { id: 'rickroll', label: 'Rick Roll', file: 'sounds/rick-roll.mp3' }
   ];

@@ -1,19 +1,40 @@
 /* Retro Board — shell offline cache. Mic/record needs HTTPS + live page. */
-const CACHE = 'retro-board-v5';
+const CACHE = 'retro-board-v6';
 const SHELL = [
   './',
   './index.html',
-  './styles.css?v=5',
-  './js/app.js?v=5',
-  './js/db.js?v=5',
-  './js/audio.js?v=5',
+  './styles.css?v=6',
+  './js/app.js?v=6',
+  './js/db.js?v=6',
+  './js/audio.js?v=6',
   './manifest.json',
   './icons/icon-192.png',
   './icons/icon-512.png',
   './icons/apple-touch-icon.png',
+  './sounds/applause.mp3',
+  './sounds/boing.mp3',
+  './sounds/bong.mp3',
+  './sounds/bonk.mp3',
+  './sounds/cha-ching.mp3',
+  './sounds/crickets.mp3',
   './sounds/dj-airhorn.mp3',
+  './sounds/drum-roll.mp3',
+  './sounds/dun-dun-dunnn.mp3',
+  './sounds/error-ding.mp3',
+  './sounds/explosion.mp3',
   './sounds/get-to-the-choppa.mp3',
-  './sounds/rick-roll.mp3'
+  './sounds/gong.mp3',
+  './sounds/laugh-track.mp3',
+  './sounds/metal-pipe.mp3',
+  './sounds/pew-pew.mp3',
+  './sounds/record-scratch.mp3',
+  './sounds/rick-roll.mp3',
+  './sounds/rimshot.mp3',
+  './sounds/sad-trombone.mp3',
+  './sounds/suspense-riser.mp3',
+  './sounds/train-horn.mp3',
+  './sounds/vine-boom.mp3',
+  './sounds/whip.mp3'
 ];
 
 self.addEventListener('install', (e) => {

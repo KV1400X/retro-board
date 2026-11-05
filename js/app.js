@@ -1,7 +1,7 @@
 /* Retro Board — main UI */
 (() => {
   const COLS = 3;
-  const ROWS = 5;
+  const ROWS = 8;
   const PAD_COUNT = COLS * ROWS;
 
   const COLORS = [
@@ -12,17 +12,13 @@
 
   const DEFAULT_PADS = () =>
     Array.from({ length: PAD_COUNT }, (_, i) => {
-      const tones = RBAudio.STARTERS.filter((s) => !s.file);
-      const fixed = { 11: 'airhorn', 12: 'choppa', 13: 'rickroll' }[i];
-      const starter = fixed
-        ? RBAudio.STARTERS.find((s) => s.id === fixed)
-        : tones[i % tones.length];
+      const starter = RBAudio.STARTERS[i % RBAudio.STARTERS.length];
       return {
         id: `pad-${i}`,
         label: starter.label,
         color: COLORS[i % COLORS.length],
         starterId: starter.id,
-        file: starter.file || null,
+        file: starter.file,
         hasCustom: false
       };
     });
@@ -64,35 +60,28 @@
       const pads = await RB_DB.getMeta('pads', null);
       const vol = await RB_DB.getMeta('volume', 0.85);
       if (pads && Array.isArray(pads) && pads.length > 0 && pads.length <= PAD_COUNT) {
-        // migration: older installs had fewer pads — keep theirs untouched, append new slots
+        // migration v6: keep custom (REC/imported) pads untouched; swap old synth beep/boop
+        // starters for meme sounds; append new slots for the bigger board.
         const defs = DEFAULT_PADS();
-        const grew = pads.length < PAD_COUNT;
-        const extra = defs.slice(pads.length).map((d) => ({ ...d, starterId: d.starterId === 'choppa' || d.starterId === 'rickroll' ? null : d.starterId }));
-        state.pads = pads.concat(extra);
-        // make sure the new file pads exist, using appended (non-custom) slots only
-        for (const id of ['choppa', 'rickroll']) {
-          if (state.pads.some((p) => p.starterId === id)) continue;
-          const slot = state.pads.slice(pads.length).find((p) => !p.hasCustom && !RBAudio.STARTERS.find((s) => s.id === p.starterId && s.file));
-          if (!slot) continue;
-          const def = RBAudio.STARTERS.find((s) => s.id === id);
-          slot.starterId = id; slot.label = def.label; slot.file = def.file; slot.hasCustom = false;
-        }
-        if (grew) await savePads();
+        state.pads = pads.concat(defs.slice(pads.length));
+        const isFileStarter = (p) => RBAudio.STARTERS.some((s) => s.id === p.starterId);
+        const keep = (p, i) => i < pads.length && !p.hasCustom && isFileStarter(p);
+        const used = new Set(state.pads.filter(keep).map((p) => p.starterId));
+        const queue = RBAudio.STARTERS.filter((s) => !used.has(s.id));
+        let changed = pads.length < PAD_COUNT;
+        state.pads.forEach((p, i) => {
+          if (p.hasCustom) return;
+          if (keep(p, i)) {
+            if (p.starterId === 'airhorn' && /^RJ/i.test(p.label || '')) { p.label = 'DJ air horn'; changed = true; }
+            return;
+          }
+          const def = queue.shift();
+          if (!def) return;
+          p.starterId = def.id; p.label = def.label; p.file = def.file;
+          changed = true;
+        });
+        if (changed) await savePads();
       }
-      // migration: make sure a DJ air horn pad exists
-      if (!state.pads.some((p) => p.starterId === 'airhorn')) {
-        const free = [...state.pads].reverse().find((p) => !p.hasCustom) || state.pads[PAD_COUNT - 1];
-        free.starterId = 'airhorn';
-        free.label = 'DJ air horn';
-        free.hasCustom = false;
-        await savePads();
-      }
-      // migration: rename old RJ pad to DJ air horn (same slot)
-      let renamed = false;
-      for (const p of state.pads) {
-        if (p.starterId === 'airhorn' && /^RJ/i.test(p.label || '')) { p.label = 'DJ air horn'; renamed = true; }
-      }
-      if (renamed) await savePads();
       state.volume = typeof vol === 'number' ? vol : 0.85;
       RBAudio.setVolume(state.volume);
       $('#vol').value = Math.round(state.volume * 100);
@@ -257,7 +246,7 @@
     } else if (pad.hasCustom) {
       meta.textContent = 'Custom sound assigned (on this device).';
     } else if (pad.starterId) {
-      meta.textContent = `Starter tone: ${pad.starterId}. Record or import to replace.`;
+      meta.textContent = `Built-in sound: ${(RBAudio.STARTERS.find((s) => s.id === pad.starterId) || {}).label || pad.starterId}. Record or import to replace.`;
     } else {
       meta.textContent = 'No sound — record or import.';
     }
