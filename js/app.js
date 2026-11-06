@@ -114,7 +114,7 @@
             // always sync file path; only overwrite label when it still matched the old starter label or is empty
             p.file = def.file;
             if (!p.label || p.label === 'Pad' || p.label === def.label || /^RJ/i.test(p.label || '') ||
-                ['Bonk','Bong','Gong','Bong','Click','Beep','Blip','Thud'].includes(p.label)) {
+                ['Bonk','Bong','Gong','Click','Beep','Blip','Thud','Surprise MF','Wanna be a ninja','To the windows','To the windows'].includes(p.label)) {
               p.label = def.label;
               changed = true;
             }
