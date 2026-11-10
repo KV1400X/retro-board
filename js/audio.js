@@ -21,7 +21,7 @@ const RBAudio = (() => {
     { id: 'error', label: 'Error ding', file: 'sounds/error-ding.mp3' },
     { id: 'explosion', label: 'Explosion', file: 'sounds/explosion.mp3' },
     { id: 'drumroll', label: 'Drum roll', file: 'sounds/drum-roll.mp3' },
-    { id: 'chaching', label: 'Cha-ching', file: 'sounds/cha-ching.mp3' },
+    { id: 'suprabov', label: 'Supra BOV', file: 'sounds/supra-bov.mp3' },
     { id: 'boing', label: 'Boing', file: 'sounds/boing.mp3' },
     { id: 'whip', label: 'Whip crack', file: 'sounds/whip.mp3' },
     { id: 'trainhorn', label: 'Train horn', file: 'sounds/train-horn.mp3' },
