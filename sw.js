@@ -1,12 +1,12 @@
 /* Retro Board — shell offline cache. Mic/record needs HTTPS + live page. */
-const CACHE = 'retro-board-v10';
+const CACHE = 'retro-board-v11';
 const SHELL = [
   './',
   './index.html',
-  './styles.css?v=10',
-  './js/app.js?v=10',
-  './js/db.js?v=10',
-  './js/audio.js?v=10',
+  './styles.css?v=11',
+  './js/app.js?v=11',
+  './js/db.js?v=11',
+  './js/audio.js?v=11',
   './manifest.json',
   './icons/icon-192.png',
   './icons/icon-512.png',

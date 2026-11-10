@@ -28,7 +28,7 @@ Short clips Nick asked for on this personal soundboard. Not free-licensed; do no
 | File | Source |
 |---|---|
 | sounds/rick-roll.mp3 | Rick Astley – Never Gonna Give You Up (Official Video) https://www.youtube.com/watch?v=dQw4w9WgXcQ |
-| sounds/surprise.mp3 | Cilla Black – Surprise Surprise (1986 ITV theme; Oban277 upload) https://www.youtube.com/watch?v=CMSNVgQgctE |
+| sounds/surprise.mp3 | stan twitter: surprise, surprise https://www.youtube.com/watch?v=Phnm0a_S8Tk |
 | sounds/to-the-windows.mp3 | Lil Jon & The East Side Boyz – Get Low (feat. Ying Yang Twins) Official Audio https://www.youtube.com/watch?v=ZN43UoyAbwg |
 | sounds/wanna-be-ninja.mp3 | Jennifer Murphy GoGirl – I Want To Be Neenja! https://www.youtube.com/watch?v=6jDHRW6fngg |
 | sounds/get-to-the-choppa.mp3 | Predator scene https://www.youtube.com/watch?v=Aqj-7cCAQZI |
