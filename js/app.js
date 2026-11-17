@@ -66,7 +66,7 @@
         const grew = pads.length < PAD_COUNT;
         state.pads = pads.concat(defs.slice(pads.length));
         const isFileStarter = (id) => RBAudio.STARTERS.some((s) => s.id === id);
-        const remap = { bonk: 'surprise', bong: 'windowswall', gong: 'ninja', chaching: 'suprabov' };
+        const remap = { bonk: 'surprise', bong: 'windowswall', gong: 'ninja', chaching: 'suprabov', pipe: 'bombadil' };
         let changed = grew;
         for (const p of state.pads) {
           if (p.hasCustom) continue;
@@ -114,7 +114,7 @@
             // always sync file path; only overwrite label when it still matched the old starter label or is empty
             p.file = def.file;
             if (!p.label || p.label === 'Pad' || p.label === def.label || /^RJ/i.test(p.label || '') ||
-                ['Bonk','Bong','Gong','Click','Beep','Blip','Thud','Surprise MF','Wanna be a ninja','To the windows','To the windows','Cha-ching','Chime'].includes(p.label)) {
+                ['Bonk','Bong','Gong','Click','Beep','Blip','Thud','Surprise MF','Wanna be a ninja','To the windows','To the windows','Cha-ching','Chime','Metal pipe','Metal Pipe'].includes(p.label)) {
               p.label = def.label;
               changed = true;
             }

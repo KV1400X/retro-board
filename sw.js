@@ -1,12 +1,12 @@
 /* Retro Board — shell offline cache. Mic/record needs HTTPS + live page. */
-const CACHE = 'retro-board-v12';
+const CACHE = 'retro-board-v13';
 const SHELL = [
   './',
   './index.html',
-  './styles.css?v=12',
-  './js/app.js?v=12',
-  './js/db.js?v=12',
-  './js/audio.js?v=12',
+  './styles.css?v=13',
+  './js/app.js?v=13',
+  './js/db.js?v=13',
+  './js/audio.js?v=13',
   './manifest.json',
   './icons/icon-192.png',
   './icons/icon-512.png',
@@ -22,7 +22,7 @@ const SHELL = [
   './sounds/explosion.mp3',
   './sounds/get-to-the-choppa.mp3',
   './sounds/laugh-track.mp3',
-  './sounds/metal-pipe.mp3',
+  './sounds/tom-bombadil.mp3',
   './sounds/pew-pew.mp3',
   './sounds/record-scratch.mp3',
   './sounds/rick-roll.mp3',

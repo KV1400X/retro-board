@@ -16,7 +16,7 @@ const RBAudio = (() => {
     { id: 'scratch', label: 'Record scratch', file: 'sounds/record-scratch.mp3' },
     { id: 'dun', label: 'Dun dun DUNNN', file: 'sounds/dun-dun-dunnn.mp3' },
     { id: 'windowswall', label: 'To the window', file: 'sounds/to-the-windows.mp3' },
-    { id: 'pipe', label: 'Metal pipe', file: 'sounds/metal-pipe.mp3' },
+    { id: 'bombadil', label: 'Tom Bombadil', file: 'sounds/tom-bombadil.mp3' },
     { id: 'surprise', label: 'Surprise surprise', file: 'sounds/surprise.mp3' },
     { id: 'error', label: 'Error ding', file: 'sounds/error-ding.mp3' },
     { id: 'explosion', label: 'Explosion', file: 'sounds/explosion.mp3' },

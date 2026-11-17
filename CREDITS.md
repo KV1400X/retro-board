@@ -17,7 +17,7 @@ Built-in pads in `sounds/`. All files trimmed, loudness-normalized and re-encode
 CC BY / CC BY-SA files are modified (trimmed/normalized); the modified versions are shared under the same license.
 
 ## Original recreations (made for this project, CC0)
-Synthesized from scratch in code (no samples): vine-boom, rimshot (ba-dum-tss), record-scratch, dun-dun-dunnn, bong, metal-pipe, bonk, error-ding, explosion, suspense-riser, pew-pew.
+Synthesized from scratch in code (no samples): vine-boom, rimshot (ba-dum-tss), record-scratch, dun-dun-dunnn, bong, bonk, error-ding, explosion, suspense-riser, pew-pew.
 
 ## Pre-existing pads
 dj-airhorn, get-to-the-choppa, rick-roll were already in the repo before this update.
@@ -32,3 +32,4 @@ Short clips Nick asked for on this personal soundboard. Not free-licensed; do no
 | sounds/wanna-be-ninja.mp3 | Jennifer Murphy GoGirl – I Want To Be Neenja! https://www.youtube.com/watch?v=6jDHRW6fngg |
 | sounds/get-to-the-choppa.mp3 | Predator scene https://www.youtube.com/watch?v=Aqj-7cCAQZI |
 | sounds/supra-bov.mp3 | Toyota supra 650hp HKS SSQV sound test (cut 2.0–7.2s) https://www.youtube.com/watch?v=YAO_i86Wir4 |
+| sounds/tom-bombadil.mp3 | Tolkien Ensemble – Tom Bombadil's Song, Hey Dol! Merry Dol! (cut 0.0–14.0s, first verse) https://www.youtube.com/watch?v=hhFAB-Z9Kb0 |
